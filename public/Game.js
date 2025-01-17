@@ -1,26 +1,28 @@
 'use strict';
 
+import { Projectile } from './Projectile.js';
+
 export class Game {
-  constructor() {
-    this.canvas = document.getElementById('canvas');
-    this.context = canvas.getContext('2d');
+  constructor(canvasWidth, canvasHeight) {
+    this.x = canvasWidth;
+    this.y = canvasHeight;
+    this.projectile = new Projectile();
   }
 
-  init() {
-    window.requestAnimationFrame(() => {
-      this.gameLoop();
-    });
+  handleInputs() {
+    document.onclick = () => {
+      this.projectile.fire();
+    };
+  }
+  updateObjects(secondsPassedSinceLastLoop) {
+    this.projectile.update(secondsPassedSinceLastLoop);
   }
 
-  gameLoop() {
-    this.draw();
-    window.requestAnimationFrame(() => {
-      this.gameLoop();
-    });
-  }
+  draw(gameCanvasContext) {
+    //background
+    gameCanvasContext.fillStyle = 'skyBlue';
+    gameCanvasContext.fillRect(0, 0, this.x, this.y);
 
-  draw() {
-    this.context.fillStyle = '#0000ff';
-    this.context.fillRect(0, 0, 1024, 768);
+    this.projectile.drawObject(gameCanvasContext);
   }
 }
