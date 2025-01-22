@@ -10,16 +10,18 @@ export class Game {
   }
 
   handleInputs() {
-    document.onclick = () => {
-      this.projectile.fire();
+    document.getElementById('fire').onclick = () => {
+      const angle = Number(document.getElementById('angle').value);
+      const velocity = Number(document.getElementById('velocity').value);
+      this.projectile.fire(angle, velocity);
     };
   }
-  updateObjects(secondsPassedSinceLastLoop) {
-    this.projectile.update(secondsPassedSinceLastLoop);
+  updateObjects() {
+    this.projectile.update();
   }
 
   draw(gameCanvasContext) {
-    //background
+    // background
     gameCanvasContext.fillStyle = 'skyBlue';
     gameCanvasContext.fillRect(0, 0, this.x, this.y);
 

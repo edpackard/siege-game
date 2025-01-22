@@ -5,15 +5,18 @@ import { Game } from './Game.js';
 const gameCanvas = document.getElementById('canvas');
 const gameCanvasContext = gameCanvas.getContext('2d');
 const game = new Game(gameCanvas.width, gameCanvas.height);
-let secondsPassedSinceLastLoop = 0;
-let oldTimestamp = 0;
 
-const gameLoop = (timestamp) => {
-  secondsPassedSinceLastLoop = (timestamp - oldTimestamp) / 1000;
-  oldTimestamp = timestamp;
+let deltaTime = 0;
+let oldTimeStamp = 0;
+//let timeElapsed = 0;
+
+const gameLoop = (timeStamp) => {
+  deltaTime = (timeStamp - oldTimeStamp) / 1000;
+  oldTimeStamp = timeStamp;
+  //timeElapsed += deltaTime;
 
   game.handleInputs();
-  game.updateObjects(secondsPassedSinceLastLoop);
+  game.updateObjects();
   game.draw(gameCanvasContext);
 
   window.requestAnimationFrame(gameLoop);
