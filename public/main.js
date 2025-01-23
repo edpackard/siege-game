@@ -17,6 +17,7 @@ const gameLoop = (timeStamp) => {
 
   game.handleInputs();
   game.updateObjects();
+  game.collisionDetection();
   game.draw(gameCanvasContext);
 
   window.requestAnimationFrame(gameLoop);
