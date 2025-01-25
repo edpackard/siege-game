@@ -1,6 +1,6 @@
 'use strict';
 
-import { Game } from './Game.js';
+import { Game } from '/js/Game.js';
 
 const gameCanvas = document.getElementById('canvas');
 const gameCanvasContext = gameCanvas.getContext('2d');
