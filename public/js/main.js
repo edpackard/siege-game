@@ -6,23 +6,24 @@ const gameCanvas = document.getElementById('canvas');
 const gameCanvasContext = gameCanvas.getContext('2d');
 const game = new Game(gameCanvas.width, gameCanvas.height);
 
-let deltaTime = 0;
-let oldTimeStamp = 0;
-//let timeElapsed = 0;
-let fps = 0;
+let requiredFPS = 30;
+const interval = 1000 / requiredFPS;
+const tolerance = 0.1;
+let oldTimeStamp = window.performance.now();
 
 const gameLoop = (timeStamp) => {
-  deltaTime = (timeStamp - oldTimeStamp) / 1000;
-  oldTimeStamp = timeStamp;
-  //timeElapsed += deltaTime;
+  const deltaTime = timeStamp - oldTimeStamp;
 
-  fps = Math.round(1 / deltaTime);
-  console.log('FPS:', fps);
+  if (deltaTime >= interval - tolerance) {
+    oldTimeStamp = timeStamp;
+    game.handleInputs();
+    game.updateObjects();
+    game.collisionDetection();
+    game.draw(gameCanvasContext);
 
-  game.handleInputs();
-  game.updateObjects();
-  game.collisionDetection();
-  game.draw(gameCanvasContext);
+    const fps = Math.round(1000 / deltaTime);
+    console.log('FPS:', fps);
+  }
 
   window.requestAnimationFrame(gameLoop);
 };
