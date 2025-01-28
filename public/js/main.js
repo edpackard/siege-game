@@ -21,8 +21,8 @@ const gameLoop = (timeStamp) => {
     game.collisionDetection();
     game.draw(gameCanvasContext);
 
-    const fps = Math.round(1000 / deltaTime);
-    console.log('FPS:', fps);
+    // const fps = Math.round(1000 / deltaTime);
+    // console.log('FPS:', fps);
   }
 
   window.requestAnimationFrame(gameLoop);

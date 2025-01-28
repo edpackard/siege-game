@@ -8,7 +8,7 @@ export class Game {
     this.x = canvasWidth;
     this.y = canvasHeight;
     this.projectile = new Projectile(canvasWidth, canvasHeight);
-    this.castle = new Castle();
+    this.castle = new Castle(this.x, this.y);
   }
 
   handleInputs() {

@@ -1,11 +1,16 @@
 'use strict';
 
+import { getRandomIntegerFromRange } from './utils/get-random-integer-from-range.js';
+
 export class Castle {
-  constructor() {
-    this.width = 100;
-    this.height = 80;
-    this.x = 800;
-    this.y = 768 - this.height;
+  constructor(canvasWidth, canvasHeight) {
+    this.width = 50;
+    this.height = 40;
+    this.x = getRandomIntegerFromRange(
+      canvasWidth / 2,
+      canvasWidth - this.width
+    );
+    this.y = canvasHeight - this.height;
 
     this.impact = false;
   }

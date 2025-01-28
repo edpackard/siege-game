@@ -4,7 +4,7 @@ export class Projectile {
   constructor(canvasWidth, canvasHeight) {
     this.fired = false;
     this.impact = false;
-    this.projectileSize = 7;
+    this.projectileSize = 4;
 
     this.angle = 0; // 90 is north, 0 is east
     this.theta = 0;
