@@ -14,14 +14,18 @@ export class Projectile {
 
     this.vy = 0;
     this.vx = 0;
+    this.vyDeceleration = 0.25;
+    this.vxModifier = 1;
 
     this.x = 0;
     this.y = 0;
     this.y0 = 0;
 
     this.gravity = 9.8;
+    this.gravityModifier = 0.5;
 
     this.time = 0;
+    this.timeIncrement = 1;
   }
 
   fire(angle, velocity) {
@@ -31,10 +35,10 @@ export class Projectile {
     this.time = 0;
     this.fired = true;
     this.impact = false;
-    this.angle = angle; // implement range 20-80
+    this.angle = angle;
     this.theta = angle * (Math.PI / 180);
-    this.vy = velocity; // implement max 40
-    this.vx = velocity * 1 * Math.cos(this.theta);
+    this.vy = velocity;
+    this.vx = velocity * this.vxModifier * Math.cos(this.theta);
   }
 
   update() {
@@ -42,10 +46,10 @@ export class Projectile {
       this.fired = false;
     }
     if (this.fired) {
-      this.time += 1;
-      this.vy -= 0.25;
+      this.time += this.timeIncrement;
+      this.vy -= this.vyDeceleration;
       this.y = this.y0 - this.vy * this.time * Math.sin(this.theta);
-      this.y += this.time + 0.5 * this.gravity * this.time;
+      this.y += this.time + this.gravityModifier * this.gravity * this.time; //gravity
       this.x += this.vx;
     }
   }
@@ -55,7 +59,8 @@ export class Projectile {
       !this.fired ||
       this.x + this.projectileSize < gameObject.x || // projectile does not intersect with left x pos of object
       this.y + this.projectileSize < gameObject.y || // projectile does not intersect with upper y pos of object
-      this.x > gameObject.x + gameObject.width // projectile does not intersect with right x pos of object
+      this.x > gameObject.x + gameObject.width || // projectile does not intersect with right x pos of object
+      this.y > gameObject.y + gameObject.height // projectile does not intersect with lower y post of object
     )
       return;
 
@@ -74,5 +79,12 @@ export class Projectile {
         this.projectileSize
       );
     }
+  }
+
+  setTuningValues(values) {
+    this.vxModifier = values.vxModifier;
+    this.timeIncrement = values.timeIncrement;
+    this.gravityModifier = values.gravityModifier;
+    this.vyDeceleration = values.vyDeceleration;
   }
 }

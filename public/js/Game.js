@@ -9,6 +9,7 @@ export class Game {
     this.y = canvasHeight;
     this.projectile = new Projectile(canvasWidth, canvasHeight);
     this.castle = new Castle(this.x, this.y);
+    this.drawBackground = true;
   }
 
   handleInputs() {
@@ -28,11 +29,17 @@ export class Game {
   }
 
   draw(gameCanvasContext) {
-    // background
-    gameCanvasContext.fillStyle = 'skyBlue';
-    gameCanvasContext.fillRect(0, 0, this.x, this.y);
+    if (this.drawBackground) {
+      gameCanvasContext.fillStyle = 'skyBlue';
+      gameCanvasContext.fillRect(0, 0, this.x, this.y);
+    }
 
     this.castle.drawObject(gameCanvasContext);
     this.projectile.drawObject(gameCanvasContext);
+  }
+
+  setTuningValues(values) {
+    this.drawBackground = values.background;
+    this.projectile.setTuningValues(values.projectile);
   }
 }
