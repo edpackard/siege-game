@@ -41,6 +41,10 @@ export class Projectile {
     this.vx = velocity * this.vxModifier * Math.cos(this.theta);
   }
 
+  isFired() {
+    return this.fired;
+  }
+
   update() {
     if (this.y > this.yMax || this.x + this.projectileSize > this.xMax) {
       this.fired = false;

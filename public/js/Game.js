@@ -7,25 +7,31 @@ export class Game {
   constructor(canvasWidth, canvasHeight) {
     this.x = canvasWidth;
     this.y = canvasHeight;
-    this.projectile = new Projectile(canvasWidth, canvasHeight);
+    //todo player class
+    this.player1 = {
+      projectile: new Projectile(canvasWidth, canvasHeight),
+    };
     this.castle = new Castle(this.x, this.y);
     this.drawBackground = true;
   }
 
   handleInputs() {
     document.getElementById('fire').onclick = () => {
-      const angle = Number(document.getElementById('angle').value);
-      const velocity = Number(document.getElementById('velocity').value);
-      this.projectile.fire(angle, velocity);
-      this.castle.setImpact(false);
+      if (!this.player1.projectile.isFired()) {
+        const angle = Number(document.getElementById('angle').value);
+        const velocity = Number(document.getElementById('velocity').value);
+        this.player1.projectile.fire(angle, velocity);
+        this.castle.setImpact(false);
+      }
     };
   }
   updateObjects() {
-    this.projectile.update();
+    if (this.player1.projectile.isFired()) this.player1.projectile.update();
   }
 
   collisionDetection() {
-    this.projectile.checkCollision(this.castle);
+    if (this.player1.projectile.isFired())
+      this.player1.projectile.checkCollision(this.castle);
   }
 
   draw(gameCanvasContext) {
@@ -35,11 +41,13 @@ export class Game {
     }
 
     this.castle.drawObject(gameCanvasContext);
-    this.projectile.drawObject(gameCanvasContext);
+
+    if (this.player1.projectile.isFired())
+      this.player1.projectile.drawObject(gameCanvasContext);
   }
 
   setTuningValues(values) {
     this.drawBackground = values.background;
-    this.projectile.setTuningValues(values.projectile);
+    this.player1.projectile.setTuningValues(values.projectile);
   }
 }
