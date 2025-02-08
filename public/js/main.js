@@ -1,16 +1,17 @@
 'use strict';
 
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from './constants.js';
 import { Game } from './Game.js';
-
-const gameCanvas = document.getElementById('canvas');
-const gameCanvasContext = gameCanvas.getContext('2d');
-const game = new Game(gameCanvas.width, gameCanvas.height);
 
 let requiredFPS = 30;
 const interval = 1000 / requiredFPS;
 const tolerance = 0.1;
 let oldTimeStamp = window.performance.now();
 let isTuning = false;
+const canvasHTML = `<canvas id="gameCanvas" \
+  width="${CANVAS_WIDTH}" height="${CANVAS_HEIGHT}" \ 
+  style="border: 1px solid black"> HTML5 not supported on this browser. \
+  </canvas>`;
 const tuningHTML =
   '<input type="checkbox" id="setBackground" checked/> \
   <label for="setBackground">Background redraw</label><br />\
@@ -20,10 +21,15 @@ const tuningHTML =
   vy deceleration <input type="number" id="vydecel" value="0.25" /><br /> \
   <input type="button" id="setTuningButton" value="Set" /><br />';
 
+document.getElementById('canvas').innerHTML = canvasHTML;
+const gameCanvasContext = document
+  .getElementById('gameCanvas')
+  .getContext('2d');
+const game = new Game(CANVAS_WIDTH, CANVAS_HEIGHT);
+
 document.getElementById('tuningButton').addEventListener('click', () => {
   isTuning = !isTuning;
-  const tuningDiv = document.getElementById('tuning');
-  tuningDiv.innerHTML = isTuning ? tuningHTML : '';
+  document.getElementById('tuning').innerHTML = isTuning ? tuningHTML : '';
   if (isTuning) {
     document.getElementById('setTuningButton').addEventListener('click', () => {
       game.setTuningValues({
